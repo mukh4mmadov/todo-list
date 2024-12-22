@@ -42,20 +42,40 @@ const App = () => {
     setTo((prev) => [...prev, task]);
   };
 
-  const editTask = (index, newTask) => {
-    const updatedTasks = [...todo];
-    updatedTasks[index].task = newTask;
-    setTodo(updatedTasks);
-    setIsModalOpen(false);
-    setNewTaskText("");
+  const editTask = (newTask) => {
+    if (currentTask) {
+      const { index, section } = currentTask;
+
+      let updatedList;
+      if (section === "todo") {
+        updatedList = [...todo];
+        updatedList[index].task = newTask;
+        setTodo(updatedList);
+      } else if (section === "inProgress") {
+        updatedList = [...inProgress];
+        updatedList[index].task = newTask;
+        setInProgress(updatedList);
+      } else if (section === "completed") {
+        updatedList = [...completed];
+        updatedList[index].task = newTask;
+        setCompleted(updatedList);
+      } else if (section === "archived") {
+        updatedList = [...archived];
+        updatedList[index].task = newTask;
+        setArchived(updatedList);
+      }
+
+      setIsModalOpen(false);
+      setNewTaskText("");
+    }
   };
 
   const deleteTask = (task, from, setFrom) => {
     setFrom(from.filter((t) => t !== task));
   };
 
-  const openModal = (task, index) => {
-    setCurrentTask(index);
+  const openModal = (task, index, section) => {
+    setCurrentTask({ index, section });
     setNewTaskText(task.task);
     setIsModalOpen(true);
   };
@@ -77,7 +97,7 @@ const App = () => {
     };
 
     const handleEdit = () => {
-      openModal(task, index);
+      openModal(task, index, section);
     };
 
     const handleDelete = () => {
@@ -235,7 +255,7 @@ const App = () => {
             />
             <div className="mt-4 flex justify-end space-x-2">
               <button
-                onClick={() => editTask(currentTask, newTaskText)}
+                onClick={() => editTask(newTaskText)}
                 className="bg-blue-500 text-white px-4 py-2 rounded w-full sm:w-auto"
               >
                 Saqlash
