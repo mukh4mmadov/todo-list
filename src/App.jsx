@@ -109,7 +109,7 @@ const App = () => {
         <div className="mt-2">
           <button onClick={handleMove} className="text-blue-500 text-sm">
             {section === "todo"
-              ? "Boshqaruvga o'tkazish"
+              ? "Jarayonda"
               : section === "inProgress"
               ? "Bajarilgan"
               : section === "completed"
